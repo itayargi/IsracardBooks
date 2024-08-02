@@ -1,18 +1,16 @@
 import {createNavigationContainerRef} from '@react-navigation/native';
 import {ScreenName} from '../utils/enums';
-import {AppNavigationParams} from './AppNavigator';
+import {AppNavigationParams} from '../utils/types';
 
 export const navigationRef =
   createNavigationContainerRef<AppNavigationParams>();
 
 //navigation function
-export const navigate = (route: ScreenName, params?: any) => {
+export const navigate = (route: keyof AppNavigationParams, params?: any) => {
   if (navigationRef.isReady()) {
     navigationRef.navigate(route, params);
   }
 };
-
-//reset older screen and navigate
 
 export const resetAndNavigate = (route: ScreenName, params = {}) => {
   if (navigationRef.isReady()) {

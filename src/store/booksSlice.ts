@@ -1,26 +1,18 @@
-// store/booksSlice.ts
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
-export interface Book {
-  index: number;
-  title: string;
-  releaseDate: string;
-  cover: string;
-  description?: string;
-  pages?: number;
-  originalTitle: string;
-}
+import {Book} from '../utils/types';
 
 interface BooksState {
   list: Book[];
   searchQuery: string;
   favorites: Book[];
+  loading: boolean;
 }
-
+//state to handle home screen books
 const initialState: BooksState = {
   list: [],
   searchQuery: '',
   favorites: [],
+  loading: false,
 };
 
 const booksSlice = createSlice({
@@ -38,13 +30,21 @@ const booksSlice = createSlice({
     },
     removeFavorite: (state, action: PayloadAction<string>) => {
       state.favorites = state.favorites.filter(
-        book => book.id !== action.payload,
+        book => book.index.toString() !== action.payload,
       );
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
   },
 });
 
-export const {setBooks, setSearchQuery, addFavorite, removeFavorite} =
-  booksSlice.actions;
+export const {
+  setBooks,
+  setSearchQuery,
+  addFavorite,
+  removeFavorite,
+  setLoading,
+} = booksSlice.actions;
 
 export default booksSlice.reducer;

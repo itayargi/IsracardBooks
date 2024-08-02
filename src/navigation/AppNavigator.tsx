@@ -1,42 +1,42 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import React from 'react';
 import BookDetailsScreen from '../screens/BookDetailsScreen';
-import FavoritesScreen from '../screens/FavoritesScreen';
-import HomeScreen from '../screens/HomeScreen';
 import Splash from '../screens/Splash';
 import {ScreenName} from '../utils/enums';
+import HomeNavigator from './HomeNavigator';
 import {navigationRef} from './navigationRef';
-export type AppNavigationParams = {
-  Splash: undefined;
-  HomeScreen: undefined;
-  BookDetailsScreen: undefined;
+import {AppNavigationParams} from '../utils/types';
+import strings from '../utils/strings';
+
+const Stack = createStackNavigator<AppNavigationParams>();
+const navigatorParams: {
+  screenOptions: StackNavigationOptions;
+  initialRouteName: keyof AppNavigationParams;
+} = {
+  screenOptions: {
+    headerShown: false,
+    gestureEnabled: false,
+    animationEnabled: true,
+    headerTitleAlign: 'center',
+  },
+  initialRouteName: ScreenName.Splash,
 };
-
-const Stack = createStackNavigator<AppNavigationParams>(); // <-- adding type here
-
-const Tab = createBottomTabNavigator();
-const HomeNavigator = () => (
-  <Tab.Navigator>
-    <Tab.Screen name={ScreenName.Home} component={HomeScreen} />
-    <Tab.Screen name={ScreenName.Favorites} component={FavoritesScreen} />
-  </Tab.Navigator>
-);
 const AppNavigator = () => (
   <NavigationContainer ref={navigationRef}>
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: false,
-        animationEnabled: true,
-      }}
-      initialRouteName={ScreenName.Splash}>
+    <Stack.Navigator {...navigatorParams}>
       <Stack.Screen name={ScreenName.Splash} component={Splash} />
       <Stack.Screen
         name={ScreenName.BookDetailsScreen}
         component={BookDetailsScreen}
-        options={{headerShown:true}}
+        options={{
+          headerShown: true,
+          headerTitle: strings.bookDetailsScreenTitle,
+          headerBackTitleVisible: false,
+        }}
       />
       <Stack.Screen name={ScreenName.HomeScreen} component={HomeNavigator} />
     </Stack.Navigator>
