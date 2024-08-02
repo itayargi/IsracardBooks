@@ -1,10 +1,9 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
-import axios from 'axios';
-import {setBooks, setLoading} from './booksSlice';
+import {call, CallEffect, put, PutEffect, takeEvery} from 'redux-saga/effects';
+import axiosInstance from '../api/interceptors';
+import urls from '../api/urls';
 import {BookAction} from '../utils/enums';
 import {Book} from '../utils/types';
-import {CallEffect, PutEffect} from 'redux-saga/effects';
-import urls from '../api/urls';
+import {setBooks, setLoading} from './booksSlice';
 
 function* fetchBooks(): Generator<
   CallEffect | PutEffect,
@@ -13,7 +12,7 @@ function* fetchBooks(): Generator<
 > {
   try {
     yield put(setLoading(true));
-    const response = yield call(axios.get, urls.getBooks);
+    const response = yield call(axiosInstance.get, urls.getBooks);
     yield put(setBooks(response.data));
   } catch (error) {
     console.error('Failed to fetch books:', error);

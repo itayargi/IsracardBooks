@@ -1,3 +1,4 @@
 export default {
-  getBooks: 'https://potterapi-fedeperin.vercel.app/en/books',
+  baseUrl: 'https://potterapi-fedeperin.vercel.app',
+  getBooks: '/en/books',
 };
