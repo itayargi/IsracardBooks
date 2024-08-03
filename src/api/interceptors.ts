@@ -1,7 +1,7 @@
 import axios, {AxiosError, AxiosResponse} from 'axios';
-import urls from './urls';
-import {navigate, resetAndNavigate} from '../navigation/navigationRef';
+import {resetAndNavigate} from '../navigation/navigationRef';
 import {ScreenName} from '../utils/enums';
+import urls from './urls';
 
 const axiosInstance = axios.create({
   baseURL: urls.baseUrl,

@@ -20,6 +20,7 @@ const BooksList: React.FC<IBookListParams> = ({
     <FlatList
       data={filteredBooks}
       keyExtractor={item => item.index.toString()}
+      bounces={false}
       showsVerticalScrollIndicator={false}
       renderItem={({item}) => {
         const isBookFavorite = isFavorite({list: favoriteBooks}, item.index);

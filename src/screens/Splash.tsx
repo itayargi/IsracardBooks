@@ -1,16 +1,10 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  Animated,
-  StyleSheet,
-  View,
-  Image,
-  Easing,
-  ActivityIndicator,
-} from 'react-native';
+import {Animated, Easing, Image, StyleSheet, View} from 'react-native';
+import imageIndex from '../assets/images/imageIndex';
+import Loader from '../components/loader/Loader';
 import {resetAndNavigate} from '../navigation/navigationRef';
 import {ScreenName} from '../utils/enums';
 import {wait} from '../utils/utils';
-import imageIndex from '../assets/images/imageIndex';
 
 const Splash = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -34,7 +28,7 @@ const Splash = () => {
       <Animated.View style={{opacity: fadeAnim}}>
         <Image source={imageIndex.bookIcon()} style={styles.logo} />
       </Animated.View>
-      <ActivityIndicator size="large" color="#ffffff" style={styles.loader} />
+      <Loader />
     </View>
   );
 };
@@ -52,8 +46,5 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     marginBottom: 20,
-  },
-  loader: {
-    marginTop: 20,
   },
 });

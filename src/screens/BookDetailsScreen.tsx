@@ -1,17 +1,16 @@
 import React from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import imageIndex from '../assets/images/imageIndex';
-import AddBookBtn from '../components/book/AddBookBtn';
 import {RootState} from '../store';
 import {isFavorite} from '../store/favoritesSlice';
 import {ICustomNavigationFunctionComponent} from '../utils/types';
-import RemoveBookBtn from '../components/book/RemoveBookBtn';
 import AppBG from '../components/appBackground/AppBG';
+import FavoriteToggle from '../components/favorite/FavoriteToggle';
 
 const BookDetailsScreen: ICustomNavigationFunctionComponent = ({route}) => {
   const {book} = route.params;
   const favoriteBooks = useSelector((state: RootState) => state.favorites.list);
+  const favorite = isFavorite({list: favoriteBooks}, book.index);
 
   return (
     <AppBG>
@@ -25,14 +24,11 @@ const BookDetailsScreen: ICustomNavigationFunctionComponent = ({route}) => {
         <Text style={styles.description}>{book.description}</Text>
         <Text style={styles.pages}>Pages: {book.pages}</Text>
         <View style={styles.space} />
-        {isFavorite({list: favoriteBooks}, book.index) ? (
-          <>
-            <Image source={imageIndex.heart()} style={styles.heart} />
-            <RemoveBookBtn index={book.index} />
-          </>
-        ) : (
-          <AddBookBtn book={book} />
-        )}
+        <FavoriteToggle
+          isFavorite={favorite}
+          bookIndex={book.index}
+          book={book}
+        />
       </ScrollView>
     </AppBG>
   );
@@ -77,19 +73,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#444',
     marginBottom: 20,
-  },
-  favoriteLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#e63946',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-
-  heart: {
-    width: 60,
-    height: 60,
-    alignSelf: 'center',
   },
 });
 

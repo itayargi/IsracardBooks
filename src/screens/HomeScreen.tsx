@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import {ActivityIndicator, StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppBG from '../components/appBackground/AppBG';
 import BooksList from '../components/lists/BookList';
+import Loader from '../components/loader/Loader';
 import {navigate} from '../navigation/navigationRef';
 import {AppDispatch, RootState} from '../store';
 import {setSearchQuery} from '../store/booksSlice';
@@ -34,12 +35,13 @@ const HomeScreen: React.FC = () => {
     <AppBG style={styles.container}>
       <TextInput
         placeholder={strings.searchPlaceholder}
+        placeholderTextColor={colors.placeholder}
         value={searchQuery}
         onChangeText={text => dispatch(setSearchQuery(text))}
         style={styles.searchInput}
       />
       {loading ? (
-        <ActivityIndicator size="large" color="#007bff" style={styles.loader} />
+        <Loader />
       ) : (
         <BooksList
           books={books}
@@ -66,9 +68,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 15,
     backgroundColor: '#fff',
-  },
-  loader: {
-    marginTop: 20,
   },
 });
 

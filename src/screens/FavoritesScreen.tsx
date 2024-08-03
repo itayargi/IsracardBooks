@@ -16,6 +16,7 @@ const FavoritesScreen: ICustomNavigationFunctionComponent = () => {
     <AppBG style={styles.container}>
       <FlatList
         data={favoriteBooks}
+        bounces={false}
         keyExtractor={item => item.index.toString()}
         renderItem={({item}) => (
           <View style={styles.cardContainer}>

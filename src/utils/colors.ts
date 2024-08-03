@@ -5,4 +5,5 @@ export default {
   bannerRelease: '#555',
   homeBackground: '#f8f9fa',
   appBackground: '#fff',
+  placeholder: 'grey',
 };

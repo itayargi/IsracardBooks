@@ -23,11 +23,13 @@ export default RemoveBookBtn;
 const styles = StyleSheet.create({
   removeButton: {
     backgroundColor: '#e63946',
-    paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
   },
   removeButtonText: {
     color: '#fff',
