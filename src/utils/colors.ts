@@ -4,4 +4,5 @@ export default {
   bannerTitle: '#333',
   bannerRelease: '#555',
   homeBackground: '#f8f9fa',
+  appBackground: '#fff',
 };

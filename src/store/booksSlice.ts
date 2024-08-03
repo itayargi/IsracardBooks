@@ -25,26 +25,13 @@ const booksSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
-    addFavorite: (state, action: PayloadAction<Book>) => {
-      state.favorites.push(action.payload);
-    },
-    removeFavorite: (state, action: PayloadAction<string>) => {
-      state.favorites = state.favorites.filter(
-        book => book.index.toString() !== action.payload,
-      );
-    },
+
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
   },
 });
 
-export const {
-  setBooks,
-  setSearchQuery,
-  addFavorite,
-  removeFavorite,
-  setLoading,
-} = booksSlice.actions;
+export const {setBooks, setSearchQuery, setLoading} = booksSlice.actions;
 
 export default booksSlice.reducer;

@@ -13,7 +13,7 @@ import {wait} from '../utils/utils';
 import imageIndex from '../assets/images/imageIndex';
 
 const Splash = () => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {

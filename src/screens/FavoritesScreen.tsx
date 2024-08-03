@@ -1,20 +1,19 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {View, FlatList, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {removeFavorite} from '../store/favoritesSlice';
-import {RootState, AppDispatch} from '../store';
-import {ICustomNavigationFunctionComponent} from '../utils/types';
-import {navigate} from '../navigation/navigationRef';
-import {ScreenName} from '../utils/enums';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import BookCard from '../components/book/BookCard';
-import strings from '../utils/strings';
+import RemoveBookBtn from '../components/book/RemoveBookBtn';
+import {navigate} from '../navigation/navigationRef';
+import {RootState} from '../store';
+import {ScreenName} from '../utils/enums';
+import {ICustomNavigationFunctionComponent} from '../utils/types';
+import AppBG from '../components/appBackground/AppBG';
 
 const FavoritesScreen: ICustomNavigationFunctionComponent = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const favoriteBooks = useSelector((state: RootState) => state.favorites.list);
 
   return (
-    <View style={styles.container}>
+    <AppBG style={styles.container}>
       <FlatList
         data={favoriteBooks}
         keyExtractor={item => item.index.toString()}
@@ -28,17 +27,11 @@ const FavoritesScreen: ICustomNavigationFunctionComponent = () => {
                 navigate(ScreenName.BookDetailsScreen, {book: item})
               }
             />
-            <TouchableOpacity
-              style={styles.removeButton}
-              onPress={() => dispatch(removeFavorite(item.index))}>
-              <Text style={styles.removeButtonText}>
-                {strings.favorite_remove}
-              </Text>
-            </TouchableOpacity>
+            <RemoveBookBtn index={item.index} />
           </View>
         )}
       />
-    </View>
+    </AppBG>
   );
 };
 
@@ -58,19 +51,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
-  },
-  removeButton: {
-    backgroundColor: '#e63946',
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-  },
-  removeButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 

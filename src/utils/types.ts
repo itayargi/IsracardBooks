@@ -30,3 +30,19 @@ export interface Book {
 export interface BookCardProps extends Partial<Book> {
   onPress: () => void;
 }
+
+export interface IAddBookParams {
+  book: Book;
+}
+export interface IRemoveBookParams {
+  index: number;
+}
+export interface IRenderBooksParams {
+  index: number;
+}
+export type IBookListParams = {
+  books: Book[];
+  filteredBooks: Book[];
+  onPressBook: (book: Book) => void;
+  searchQuery: string;
+};

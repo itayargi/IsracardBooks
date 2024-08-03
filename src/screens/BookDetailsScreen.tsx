@@ -1,43 +1,40 @@
 import React from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import imageIndex from '../assets/images/imageIndex';
+import AddBookBtn from '../components/book/AddBookBtn';
 import {RootState} from '../store';
-import {addFavorite, isFavorite} from '../store/favoritesSlice';
+import {isFavorite} from '../store/favoritesSlice';
 import {ICustomNavigationFunctionComponent} from '../utils/types';
-import strings from '../utils/strings';
+import RemoveBookBtn from '../components/book/RemoveBookBtn';
+import AppBG from '../components/appBackground/AppBG';
 
 const BookDetailsScreen: ICustomNavigationFunctionComponent = ({route}) => {
-  const dispatch = useDispatch();
   const {book} = route.params;
   const favoriteBooks = useSelector((state: RootState) => state.favorites.list);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-      contentContainerStyle={styles.container}>
-      <Image source={{uri: book.cover}} style={styles.coverImage} />
-      <Text style={styles.title}>{book.title}</Text>
-      <Text style={styles.releaseDate}>{book.releaseDate}</Text>
-      <Text style={styles.description}>{book.description}</Text>
-      <Text style={styles.pages}>Pages: {book.pages}</Text>
-      <View style={styles.space} />
-      {isFavorite({list: favoriteBooks}, book.index) && (
-        <Text style={styles.favoriteLabel}>Favorite</Text>
-      )}
-      <TouchableOpacity
-        style={styles.favoriteButton}
-        onPress={() => dispatch(addFavorite(book))}>
-        <Text style={styles.favoriteButtonText}>{strings.favorite_add}</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <AppBG>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        contentContainerStyle={styles.container}>
+        <Image source={{uri: book.cover}} style={styles.coverImage} />
+        <Text style={styles.title}>{book.title}</Text>
+        <Text style={styles.releaseDate}>{book.releaseDate}</Text>
+        <Text style={styles.description}>{book.description}</Text>
+        <Text style={styles.pages}>Pages: {book.pages}</Text>
+        <View style={styles.space} />
+        {isFavorite({list: favoriteBooks}, book.index) ? (
+          <>
+            <Image source={imageIndex.heart()} style={styles.heart} />
+            <RemoveBookBtn index={book.index} />
+          </>
+        ) : (
+          <AddBookBtn book={book} />
+        )}
+      </ScrollView>
+    </AppBG>
   );
 };
 
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#fff',
   },
   coverImage: {
     width: '100%',
@@ -88,17 +85,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  favoriteButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  favoriteButtonText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
+
+  heart: {
+    width: 60,
+    height: 60,
+    alignSelf: 'center',
   },
 });
 
