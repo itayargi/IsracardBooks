@@ -11,6 +11,7 @@ import HomeNavigator from './HomeNavigator';
 import {navigationRef} from './navigationRef';
 import {AppNavigationParams} from '../utils/types';
 import strings from '../utils/strings';
+import ErrorScreen from '../screens/ErrorScreen';
 
 const Stack = createStackNavigator<AppNavigationParams>();
 const navigatorParams: {
@@ -39,6 +40,7 @@ const AppNavigator = () => (
         }}
       />
       <Stack.Screen name={ScreenName.HomeScreen} component={HomeNavigator} />
+      <Stack.Screen name={ScreenName.ErrorScreen} component={ErrorScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 );

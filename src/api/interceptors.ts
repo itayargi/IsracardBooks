@@ -1,5 +1,7 @@
 import axios, {AxiosError, AxiosResponse} from 'axios';
 import urls from './urls';
+import {navigate, resetAndNavigate} from '../navigation/navigationRef';
+import {ScreenName} from '../utils/enums';
 
 const axiosInstance = axios.create({
   baseURL: urls.baseUrl,
@@ -39,6 +41,7 @@ axiosInstance.interceptors.response.use(
       // Something else happened while setting up the request
       console.error('Error setting up request:', error.message);
     }
+    resetAndNavigate(ScreenName.ErrorScreen);
     return Promise.reject(error);
   },
 );

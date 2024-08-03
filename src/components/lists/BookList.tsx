@@ -4,6 +4,9 @@ import {IBookListParams} from '../../utils/types';
 import Banner from '../banner/Banner';
 import BookCard from '../book/BookCard';
 import strings from '../../utils/strings';
+import {isFavorite} from '../../store/favoritesSlice';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 const BooksList: React.FC<IBookListParams> = ({
   books,
@@ -11,19 +14,25 @@ const BooksList: React.FC<IBookListParams> = ({
   onPressBook,
   searchQuery,
 }) => {
+  const favoriteBooks = useSelector((state: RootState) => state.favorites.list); // Get favorite books from Redux
+
   return (
     <FlatList
       data={filteredBooks}
       keyExtractor={item => item.index.toString()}
       showsVerticalScrollIndicator={false}
-      renderItem={({item}) => (
-        <BookCard
-          title={item.title}
-          releaseDate={item.releaseDate}
-          cover={item.cover}
-          onPress={() => onPressBook(item)}
-        />
-      )}
+      renderItem={({item}) => {
+        const isBookFavorite = isFavorite({list: favoriteBooks}, item.index);
+        return (
+          <BookCard
+            title={item.title}
+            releaseDate={item.releaseDate}
+            cover={item.cover}
+            onPress={() => onPressBook(item)}
+            isFavorite={isBookFavorite}
+          />
+        );
+      }}
       ListHeaderComponent={<Banner books={books} onPressBook={onPressBook} />}
       ListEmptyComponent={searchQuery ? <EmptyComponent /> : null}
       contentContainerStyle={styles.listContent}

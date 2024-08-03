@@ -32,3 +32,8 @@ export const getCurrentRoute = () => {
   }
   return route?.name;
 };
+export const goBack = () => {
+  if (navigationRef.isReady()) {
+    navigationRef.goBack();
+  }
+};

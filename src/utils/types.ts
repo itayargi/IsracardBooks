@@ -16,6 +16,7 @@ export type AppNavigationParams = {
   HomeScreen: undefined;
   BookDetailsScreen: undefined;
   FavoriteScreen: undefined;
+  ErrorScreen: undefined;
 };
 
 export interface Book {
@@ -29,6 +30,7 @@ export interface Book {
 }
 export interface BookCardProps extends Partial<Book> {
   onPress: () => void;
+  isFavorite: Boolean;
 }
 
 export interface IAddBookParams {

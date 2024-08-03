@@ -4,6 +4,7 @@ export enum ScreenName {
   Splash = 'Splash',
   HomeScreen = 'HomeScreen',
   BookDetailsScreen = 'BookDetailsScreen',
+  ErrorScreen = 'ErrorScreen'
 }
 export enum BookAction {
   FetchBooks = 'books/fetchBooks',
