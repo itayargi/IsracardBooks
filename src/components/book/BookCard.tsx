@@ -54,9 +54,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position: 'relative',
   },
   textBlock: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 16,
@@ -70,6 +73,10 @@ const styles = StyleSheet.create({
   heart: {
     width: 25,
     height: 25,
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: [{translateY: -12.5}],
   },
 });
 

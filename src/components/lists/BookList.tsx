@@ -33,7 +33,7 @@ const BooksList: React.FC<IBookListParams> = ({
           />
         );
       }}
-      ListHeaderComponent={<Banner books={books} onPressBook={onPressBook} />}
+      ListFooterComponent={<Banner books={books} onPressBook={onPressBook} />}
       ListEmptyComponent={searchQuery ? <EmptyComponent /> : null}
       contentContainerStyle={styles.listContent}
     />
