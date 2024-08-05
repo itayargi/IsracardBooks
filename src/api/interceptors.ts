@@ -2,6 +2,7 @@ import axios, {AxiosError, AxiosResponse} from 'axios';
 import {resetAndNavigate} from '../navigation/navigationRef';
 import {ScreenName} from '../utils/enums';
 import urls from './urls';
+import {logDev} from '../utils/utils';
 
 const axiosInstance = axios.create({
   baseURL: urls.baseUrl,
@@ -26,6 +27,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
+    logDev('error axios:', error);
     // Handle response error here
     if (error.response) {
       // Server responded with a status other than 2xx

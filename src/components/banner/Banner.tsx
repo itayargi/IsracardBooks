@@ -1,4 +1,3 @@
-// components/Banner.tsx
 import React, {useEffect, useRef} from 'react';
 import {
   FlatList,
@@ -18,7 +17,7 @@ interface BannerProps {
 }
 
 const Banner: React.FC<BannerProps> = ({books, onPressBook}) => {
-  const flatListRef = useRef<FlatList>(null);
+  const flatListRef = useRef<FlatList<Book>>(null);
   const currentIndex = useRef(0);
   const width = sizes.pageWidth;
 
@@ -54,6 +53,9 @@ const Banner: React.FC<BannerProps> = ({books, onPressBook}) => {
             <Text style={styles.releaseDate}>{item.releaseDate}</Text>
           </TouchableOpacity>
         )}
+        snapToInterval={width}
+        snapToAlignment="center"
+        decelerationRate="fast"
       />
     </View>
   );
