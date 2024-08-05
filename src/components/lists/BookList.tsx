@@ -1,6 +1,6 @@
-import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {IBookListParams} from '../../utils/types';
+import React, {useCallback} from 'react';
+import {FlatList, StyleSheet, Text, View, ListRenderItem} from 'react-native';
+import {IBookListParams, Book} from '../../utils/types';
 import Banner from '../banner/Banner';
 import BookCard from '../book/BookCard';
 import strings from '../../utils/strings';
@@ -16,24 +16,32 @@ const BooksList: React.FC<IBookListParams> = ({
 }) => {
   const favoriteBooks = useSelector((state: RootState) => state.favorites.list); // Get favorite books from Redux
 
+  const keyExtractor = useCallback((item: Book) => item.index.toString(), []);
+
+  // Memoize the renderItem function to optimize rendering
+  const renderItem: ListRenderItem<Book> = useCallback(
+    ({item}) => {
+      const isBookFavorite = isFavorite({list: favoriteBooks}, item.index);
+      return (
+        <BookCard
+          title={item.title}
+          releaseDate={item.releaseDate}
+          cover={item.cover}
+          onPress={() => onPressBook(item)}
+          isFavorite={isBookFavorite}
+        />
+      );
+    },
+    [favoriteBooks, onPressBook],
+  );
+
   return (
     <FlatList
       data={filteredBooks}
-      keyExtractor={item => item.index.toString()}
+      keyExtractor={keyExtractor}
       bounces={false}
       showsVerticalScrollIndicator={false}
-      renderItem={({item}) => {
-        const isBookFavorite = isFavorite({list: favoriteBooks}, item.index);
-        return (
-          <BookCard
-            title={item.title}
-            releaseDate={item.releaseDate}
-            cover={item.cover}
-            onPress={() => onPressBook(item)}
-            isFavorite={isBookFavorite}
-          />
-        );
-      }}
+      renderItem={renderItem}
       ListFooterComponent={<Banner books={books} onPressBook={onPressBook} />}
       ListEmptyComponent={searchQuery ? <EmptyComponent /> : null}
       contentContainerStyle={styles.listContent}
@@ -41,7 +49,7 @@ const BooksList: React.FC<IBookListParams> = ({
   );
 };
 
-const EmptyComponent = () => (
+const EmptyComponent: React.FC = () => (
   <View style={styles.emptyContainer}>
     <Text style={styles.emptyText}>{strings.searchNoResults}</Text>
   </View>

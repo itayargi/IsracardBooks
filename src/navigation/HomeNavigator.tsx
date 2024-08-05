@@ -7,28 +7,33 @@ import strings from '../utils/strings';
 
 const Tab = createBottomTabNavigator();
 
-const HomeNavigator = () => {
+interface TabScreenOptions {
+  headerTitle: string;
+  tabBarLabel: string;
+}
+
+const screenOptions = {
+  [ScreenName.Home]: {
+    headerTitle: strings.homeScreenTitle,
+    tabBarLabel: strings.homeScreenTab,
+  } as TabScreenOptions,
+  [ScreenName.Favorites]: {
+    headerTitle: strings.favoriteScreenTitle,
+    tabBarLabel: strings.favoriteScreenTab,
+  } as TabScreenOptions,
+};
+
+const HomeNavigator: React.FC = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerTitleAlign: 'center',
-      }}>
-      <Tab.Screen
-        name={ScreenName.Home}
-        component={HomeScreen}
-        options={{
-          headerTitle: strings.homeScreenTitle,
-          tabBarLabel: strings.homeScreenTab,
-        }}
-      />
-      <Tab.Screen
-        name={ScreenName.Favorites}
-        component={FavoritesScreen}
-        options={{
-          headerTitle: strings.favoriteScreenTitle,
-          tabBarLabel: strings.favoriteScreenTab,
-        }}
-      />
+    <Tab.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+      {Object.entries(screenOptions).map(([name, options]) => (
+        <Tab.Screen
+          key={name}
+          name={name as keyof typeof ScreenName}
+          component={name === ScreenName.Home ? HomeScreen : FavoritesScreen}
+          options={options}
+        />
+      ))}
     </Tab.Navigator>
   );
 };

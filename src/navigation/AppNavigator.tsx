@@ -1,34 +1,38 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-} from '@react-navigation/stack';
 import React from 'react';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import BookDetailsScreen from '../screens/BookDetailsScreen';
 import Splash from '../screens/Splash';
-import {ScreenName} from '../utils/enums';
 import HomeNavigator from './HomeNavigator';
-import {navigationRef} from './navigationRef';
-import {AppNavigationParams} from '../utils/types';
-import strings from '../utils/strings';
 import ErrorScreen from '../screens/ErrorScreen';
+import {ScreenName} from '../utils/enums';
+import strings from '../utils/strings';
+import {navigationRef} from './navigationRef';
+
+type AppNavigationParams = {
+  [ScreenName.Splash]: undefined;
+  [ScreenName.BookDetailsScreen]: undefined;
+  [ScreenName.HomeScreen]: NavigatorScreenParams<typeof HomeNavigator>;
+  [ScreenName.ErrorScreen]: undefined;
+};
 
 const Stack = createStackNavigator<AppNavigationParams>();
-const navigatorParams: {
-  screenOptions: StackNavigationOptions;
-  initialRouteName: keyof AppNavigationParams;
-} = {
-  screenOptions: {
-    headerShown: false,
-    gestureEnabled: false,
-    animationEnabled: true,
-    headerTitleAlign: 'center',
-  },
-  initialRouteName: ScreenName.Splash,
+
+const screenOptions = {
+  headerShown: false,
+  gestureEnabled: false,
+  animationEnabled: true,
+  headerTitleAlign: 'center' as const,
 };
-const AppNavigator = () => (
+
+const AppNavigator: React.FC = () => (
   <NavigationContainer ref={navigationRef}>
-    <Stack.Navigator {...navigatorParams}>
+    <Stack.Navigator
+      initialRouteName={ScreenName.Splash}
+      screenOptions={screenOptions}>
       <Stack.Screen name={ScreenName.Splash} component={Splash} />
       <Stack.Screen
         name={ScreenName.BookDetailsScreen}

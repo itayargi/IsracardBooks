@@ -1,36 +1,41 @@
-import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import React, {useCallback} from 'react';
+import {FlatList, StyleSheet, View, ListRenderItem} from 'react-native';
 import {useSelector} from 'react-redux';
 import BookCard from '../components/book/BookCard';
 import RemoveBookBtn from '../components/book/RemoveBookBtn';
 import {navigate} from '../navigation/navigationRef';
 import {RootState} from '../store';
 import {ScreenName} from '../utils/enums';
-import {ICustomNavigationFunctionComponent} from '../utils/types';
+import {ICustomNavigationFunctionComponent, Book} from '../utils/types';
 import AppBG from '../components/appBackground/AppBG';
 
 const FavoritesScreen: ICustomNavigationFunctionComponent = () => {
   const favoriteBooks = useSelector((state: RootState) => state.favorites.list);
+
+  const keyExtractor = useCallback((item: Book) => item.index.toString(), []);
+
+  const renderItem: ListRenderItem<Book> = useCallback(
+    ({item}) => (
+      <View style={styles.cardContainer}>
+        <BookCard
+          title={item.title}
+          releaseDate={item.releaseDate}
+          cover={item.cover}
+          onPress={() => navigate(ScreenName.BookDetailsScreen, {book: item})}
+        />
+        <RemoveBookBtn index={item.index} />
+      </View>
+    ),
+    [],
+  );
 
   return (
     <AppBG style={styles.container}>
       <FlatList
         data={favoriteBooks}
         bounces={false}
-        keyExtractor={item => item.index.toString()}
-        renderItem={({item}) => (
-          <View style={styles.cardContainer}>
-            <BookCard
-              title={item.title}
-              releaseDate={item.releaseDate}
-              cover={item.cover}
-              onPress={() =>
-                navigate(ScreenName.BookDetailsScreen, {book: item})
-              }
-            />
-            <RemoveBookBtn index={item.index} />
-          </View>
-        )}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
       />
     </AppBG>
   );
