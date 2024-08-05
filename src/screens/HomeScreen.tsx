@@ -1,5 +1,5 @@
 // HomeScreen.tsx
-import React, {useCallback, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {StyleSheet, Text, TextInput} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppBG from '../components/appBackground/AppBG';
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default memo(HomeScreen);
