@@ -10,4 +10,6 @@ export default {
   favorite_add: 'הוספה למועדפים',
   errorText_title: 'אופס!',
   errorText_text: 'יש תקלה זמנית, אנא נסו שנית מאוחר יותר',
+  favorite_empty_text:
+    'כדי להוסיף ספרים לרשימה, לחץ הוספה למועדפים במסך פרטי הספר',
 };
