@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
@@ -10,7 +10,10 @@ import FavoriteToggle from '../components/favorite/FavoriteToggle';
 const BookDetailsScreen: ICustomNavigationFunctionComponent = ({route}) => {
   const {book} = route.params;
   const favoriteBooks = useSelector((state: RootState) => state.favorites.list);
-  const favorite = isFavorite({list: favoriteBooks}, book.index);
+  const favorite = useMemo(
+    () => isFavorite({list: favoriteBooks}, book.index),
+    [favoriteBooks, book.index],
+  );
 
   return (
     <AppBG>
